@@ -21,106 +21,56 @@
 <a href="{% url 'login:logout' %}">LOGOUT</a>
 
 <div class="container">
-    <div class="row">
+    <div class="row mt-b">
         <div class="col-sm">
             <h2>Status</h2>
             <button type="button" class="btn btn-primary">Criar Status</button>
             <div class="card">
                 <div class="card-body">
-                    <form action="" method="post">
+                    <form action="" method="post" class="form-inline">
                         <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_codigo" curValue="772634" value="772634" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
+                            <div class="form-group">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="status_codigo" curValue="772634"
+                                            value="772634" disabled>
+                                        <span class="input-group-append">
+                                            <i class="input-group-text bi bi-pencil-square"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_nome" value="Funcionando"
-                                    curValue="Funcionando" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_custom" value="Teste"
-                                    curValue="Teste" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-danger botao-apagar w-100">Apagar</button>
-                            </div>
-                        </div>
 
-                        <div class="row mt-3">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_codigo" curValue="772634" value="772634" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
+                            <div class="form-group">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="status_nome" curValue="Funcionando"
+                                            value="Funcionando" disabled>
+                                        <span class="input-group-append">
+                                            <i class="input-group-text bi bi-pencil-square"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_nome" value="Funcionando"
-                                    curValue="Funcionando" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_custom" value="Teste"
-                                    curValue="Teste" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-danger botao-apagar w-100">Apagar</button>
-                            </div>
-                        </div>
 
-                        <div class="row mt-3">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_codigo" curValue="772634" value="772634" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
+                            <div class="form-group">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" name="status_teste" curValue="Teste"
+                                            value="Teste" disabled>
+                                        <span class="input-group-append">
+                                            <i class="input-group-text bi bi-pencil-square"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_nome" value="Funcionando"
-                                    curValue="Funcionando" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
+
+                            <div class="form-group">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <button type="submit" class="btn btn-danger botao-apagar">Apagar</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_custom" value="Teste"
-                                    curValue="Teste" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-danger botao-apagar w-100">Apagar</button>
                             </div>
                         </div>
                     </form>
@@ -129,125 +79,14 @@
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-sm">
-            <h2>Maquinas</h2>
-            <button type="button" class="btn btn-primary">Criar Maquina</button>
-            <div class="card">
-                <div class="card-body">
-                    <form action="" method="post">
-                        <div class="row">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_codigo" curValue="772634"
-                                        value="772634" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_nome" value="Funcionando"
-                                        curValue="Funcionando" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_custom" value="Teste"
-                                        curValue="Teste" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-danger botao-apagar w-100">Apagar</button>
-                            </div>
-                        </div>
-    
-                        <div class="row mt-3">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_codigo" curValue="772634"
-                                        value="772634" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_nome" value="Funcionando"
-                                        curValue="Funcionando" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_custom" value="Teste"
-                                        curValue="Teste" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-danger botao-apagar w-100">Apagar</button>
-                            </div>
-                        </div>
-    
-                        <div class="row mt-3">
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_codigo" curValue="772634"
-                                        value="772634" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_nome" value="Funcionando"
-                                        curValue="Funcionando" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" name="status_custom" value="Teste"
-                                        curValue="Teste" disabled>
-                                    <span class="input-group-append">
-                                        <i class="input-group-text bi bi-pencil-square"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <button type="button" class="btn btn-danger botao-apagar w-100">Apagar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-      
 </div>
 <script>
     const removeEditIcon = spanInputGroupAppend => {
         spanInputGroupAppend.remove()
     }
 
-    const addEditIcon = (input) => {
-        const inputGroup = input.parentElement
+    const addEditIcon = (formControl) => {
+        const inputGroup = formControl.parentElement
         const hasSPAN = inputGroup.querySelector('.input-group-append')
 
         if (!hasSPAN) {
@@ -266,8 +105,8 @@
         return false
     }
 
-    const addSendIcon = (input) => {
-        const inputGroup = input.parentElement
+    const addSendIcon = (formControl) => {
+        const inputGroup = formControl.parentElement
         const hasSPAN = inputGroup.querySelector('.input-group-append')
 
         if (!hasSPAN) {
@@ -277,7 +116,7 @@
             `
             span.setAttribute("class", "input-group-append")
             span.innerHTML = templeteSendIcon
-    
+
             inputGroup.appendChild(span)
 
             return true
@@ -286,8 +125,8 @@
         return false
     }
 
-    const removeSendIcon = input => {
-        const inputGroup = input.parentElement
+    const removeSendIcon = formControl => {
+        const inputGroup = formControl.parentElement
         const span = inputGroup.querySelector('.input-group-append')
         if (span) {
             span.remove()
@@ -297,39 +136,41 @@
         return false
     }
 
-    const checkIfInputValueWasEdited = input => {
-        if (input.value != input.getAttribute('curValue')) return true
+    const checkIfInputValueWasEdited = formControl => {
+        if (formControl.value != formControl.getAttribute('curValue')) return true
         return false
     }
 
-    const removeIcons = input => {
-        const row = input.parentElement.parentElement.parentElement
+    const removeIcons = formControl => {
+        const row = formControl.parentElement.parentElement.parentElement.parentElement
         const rowChildren = Array.prototype.slice.call(row.children)
 
-        rowChildren.forEach(col => {
-            const siblingInput = col.querySelector('.form-control')
+        rowChildren.forEach(formGroup => {
+            const siblingFormControl = formGroup.querySelector('.form-control')
 
-            if (checkIfInputValueWasEdited(siblingInput)) {
-                const span = col.querySelector('.input-group-append')
-                if (span) {
-                    span.remove()
+            if (siblingFormControl) {
+                if (checkIfInputValueWasEdited(siblingFormControl)) {
+                    const span = formGroup.querySelector('.input-group-append')
+                    if (span) {
+                        span.remove()
+                    }
                 }
             }
         })
     }
 
-    const setAttributeDisabledAndRemoveAutofocus = input => {
-        if (input.hasAttribute('autofocus')) {
-            input.removeAttribute('autofocus')
+    const setAttributeDisabledAndRemoveAutofocus = formControl => {
+        if (formControl.hasAttribute('autofocus')) {
+            formControl.removeAttribute('autofocus')
         }
-        input.setAttribute('disabled', '')
+        formControl.setAttribute('disabled', '')
     }
 
-    const checkIfAtLeast2FieldsHaveBeenEdited = input => {
-        const row = input.parentElement.parentElement.parentElement
+    const checkIfAtLeast2FieldsHaveBeenEdited = formControl => {
+        const row = formControl.parentElement.parentElement.parentElement.parentElement
         const formControls = Array.prototype.slice.call(row.querySelectorAll('.form-control'))
-        const editedFields = formControls.reduce((acc, formControl) => {
-            if (checkIfInputValueWasEdited(formControl)) return acc += 1
+        const editedFields = formControls.reduce((acc, nestedFormControl) => {
+            if (checkIfInputValueWasEdited(nestedFormControl)) return acc += 1
             return acc
         }, 0)
 
@@ -337,30 +178,32 @@
         return false
     }
 
-    const addSubmitButton = input => {
-        const row = input.parentElement.parentElement.parentElement
+    const addSubmitButton = formControl => {
+        const row = formControl.parentElement.parentElement.parentElement.parentElement
         const submitButton = row.querySelector('.botao-enviar')
 
         if (!submitButton) {
             const div = document.createElement("div")
-            div.setAttribute("class", "col")
+            div.setAttribute("class", "form-group")
             div.innerHTML = `
-            <button type="button" class="btn btn-success botao-enviar w-100">
-                Enviar
-            </button>
+            <div class="col">
+                <div class="input-group">
+                    <button type="submit" class="btn btn-success botao-enviar">Enviar</button>
+                </div>
+            </div>
             `
             const rowChildren = Array.prototype.slice.call(row.children)
             row.insertBefore(div, rowChildren.slice('-1')[0])
         }
     }
 
-    const removeSubmitButton = input => {
-        const row = input.parentElement.parentElement.parentElement
+    const removeSubmitButton = formControl => {
+        const row = formControl.parentElement.parentElement.parentElement.parentElement
         const submitButton = row.querySelector('.botao-enviar')
 
         if (submitButton) {
-            const col = submitButton.parentElement
-            col.remove()
+            const formGroup = submitButton.parentElement.parentElement.parentElement
+            formGroup.remove()
 
             return true
         }
@@ -386,8 +229,8 @@
         return siblings;
     };
 
-    const addEditIconInEditedFields = input => {
-        const col = input.parentElement.parentElement
+    const addEditIconInEditedFields = formControl => {
+        const formGroup = formControl.parentElement.parentElement.parentElement
         // const formControls = Array.prototype.slice.call(row.querySelectorAll('.form-control'))
         // const editedFields = formControls.reduce((acc, formControl) => {
         //     if (formControl.value != formControl.getAttribute('curValue')) return acc += 1
@@ -396,7 +239,7 @@
         // if (editedFields >= 2) return true
         // return false
 
-        const colSiblings = getAllSiblings(col)
+        const colSiblings = getAllSiblings(formGroup)
 
         colSiblings.forEach(sibling => {
             const siblingInput = sibling.querySelector('.form-control')
@@ -417,45 +260,45 @@
             // Adicionar o atributo autofocus
             // Adicionar o atributo autofocus
             // Remover Esse Evento
-            
+
             const spanInputGroupAppend = editIcon.parentElement
             const disabledInput = spanInputGroupAppend.previousElementSibling
             removeEditIcon(spanInputGroupAppend)
-            
+
             editIcon.removeEventListener('click', () => { })
             disabledInput.removeAttribute('disabled')
             disabledInput.setAttribute('autofocus', '')
         })
     }
 
-    const createEventFocusOutInput = input => {
-        input.addEventListener('focusout', (event) => {
+    const createEventFocusOutInput = formControl => {
+        formControl.addEventListener('focusout', (event) => {
             // Checar se o valor do input foi editado
             // Se o input foi editado - Adicionar icone de enviar (caso ele nao exista)
             // Se nao adicionar o icone de Editar e seus atributos
-            const inputWasEdited = checkIfInputValueWasEdited(input)
+            const inputWasEdited = checkIfInputValueWasEdited(formControl)
 
-            input.removeEventListener('focusout', () => { })
+            formControl.removeEventListener('focusout', () => { })
 
             if (inputWasEdited) {
-                const atLeast2FieldsWereEdited = checkIfAtLeast2FieldsHaveBeenEdited(input)
+                const atLeast2FieldsWereEdited = checkIfAtLeast2FieldsHaveBeenEdited(formControl)
 
                 if (atLeast2FieldsWereEdited) {
-                    addSubmitButton(input)
+                    addSubmitButton(formControl)
                     // Aqui pode dar bug
-                    removeIcons(input)
+                    removeIcons(formControl)
                 } else {
-                    addSendIcon(input)
+                    addSendIcon(formControl)
                 }
             } else {
-                removeSendIcon(input)
-                if (removeSubmitButton(input)) {
-                    addEditIconInEditedFields(input)
+                removeSendIcon(formControl)
+                if (removeSubmitButton(formControl)) {
+                    addEditIconInEditedFields(formControl)
                 }
-                addEditIcon(input)
-                setAttributeDisabledAndRemoveAutofocus(input)
+                addEditIcon(formControl)
+                setAttributeDisabledAndRemoveAutofocus(formControl)
 
-                const editIcon = input.nextElementSibling.firstElementChild
+                const editIcon = formControl.nextElementSibling.firstElementChild
                 createEventClickEditIcon(editIcon)
             }
 
@@ -521,7 +364,7 @@
     //                 } else {
     //                     insertRemoveSubmitButton(col)
     //                 }
-    //             } 
+    //             }
     //         })
     //     })
     // }
