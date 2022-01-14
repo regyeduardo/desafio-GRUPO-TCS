@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %} Login {% endblock %}
+{% block css %} {% static 'css/style.css' %} {% endblock %}
+
+{% block body %}
+{% load widget_tweaks %}
+
+<div class="main">
+    <div class="form-login">
+        <form action="{% block form-action %} {% endblock %}" name="cadastro-login" method="post" class="container w-75">
+            <div class="form-group">
+                <label for="username">Nome de Usuário</label>
+                <!-- <input type="text" class="form-control" id="username"> -->
+                {% render_field form.username type="text" class="form-control" name="cadastro-login" placeholder="Digite o nome de Usuário" %}
+            </div>
+            <div class="form-group">
+                <label for="senha">Senha</label>
+                <!-- <input type="password" class="form-control" id="senha"> -->
+                {% render_field form.senha type="password" class="form-control" name="cadastro-login" placeholder="Digite a senha" %}
+            </div>
+            {% block botao-cadastro-login %}
+            {% endblock  %}
+        </form>
+        {% block form-login %}
+        {% endblock %}
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %} Login {% endblock %}
+{% block css %} {% static 'css/style.css' %} {% endblock %}
+
+{% block body %}
+
+<div class="main">
+    <div class="form-login">
+        <form action="{% block form-action %} {% endblock %}" method="post" class="container w-75">
+            <div class="form-group">
+                <label for="username">Nome de Usuário</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Digite o nome de Usuário" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Digite a senha" required>
+            </div>
+            {% block botao-cadastro-login %}
+            {% endblock  %}
+        </form>
+        {% block form-login %}
+        {% endblock %}
+    </div>
+</div>
+
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+
+{% endblock %}
