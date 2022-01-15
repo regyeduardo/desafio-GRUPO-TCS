@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt,csrf_protect
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.urls import reverse
 from django.contrib import messages
 from django.contrib.auth.models import User

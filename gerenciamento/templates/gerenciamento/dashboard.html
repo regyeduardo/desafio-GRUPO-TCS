@@ -21,59 +21,66 @@
 <a href="{% url 'login:logout' %}">LOGOUT</a>
 
 <div class="container">
-    <div class="row mt-b">
+    <div class="row">
         <div class="col-sm">
             <h2>Status</h2>
-            <button type="button" class="btn btn-primary">Criar Status</button>
+            <button type="button" class="btn btn-primary" id="create_status">Criar Status</button>
             <div class="card">
                 <div class="card-body">
-                    <form action="" method="post" class="form-inline">
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="status_codigo" curValue="772634"
-                                            value="772634" disabled>
-                                        <span class="input-group-append">
-                                            <i class="input-group-text bi bi-pencil-square"></i>
-                                        </span>
-                                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.level %}
+                                <div class="alert alert-{{ message.tags }} " role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
 
-                            <div class="form-group">
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="status_nome" curValue="Funcionando"
-                                            value="Funcionando" disabled>
-                                        <span class="input-group-append">
-                                            <i class="input-group-text bi bi-pencil-square"></i>
-                                        </span>
+                    {% if all_status %}
+                        {% for status in all_status %}
+                            <form action="" method="post" class="form-inline mb-3">
+                                <div class="row w-100">
+                                    <div class="form-group">
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="codigo" curValue="{{ status.codigo }}" value="{{ status.codigo }}"
+                                                    disabled>
+                                                <span class="input-group-append">
+                                                    <i class="input-group-text bi bi-pencil-square"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group">
+                                        <div class="col">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="nome" curValue="{{ status.nome }}"
+                                                    value="{{ status.nome }}" disabled>
+                                                <span class="input-group-append">
+                                                    <i class="input-group-text bi bi-pencil-square"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group">
+                                        <div class="col">
+                                                <button type="submit" class="btn btn-danger botao-apagar w-100">Apagar</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" name="status_teste" curValue="Teste"
-                                            value="Teste" disabled>
-                                        <span class="input-group-append">
-                                            <i class="input-group-text bi bi-pencil-square"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col">
-                                    <div class="input-group">
-                                        <button type="submit" class="btn btn-danger botao-apagar">Apagar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                            </form>
+                        {% endfor %}
+                    {% else %}
+                        <p class="lead vazio text-center">
+                            Não há nenhum status.
+                        </p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -112,7 +119,7 @@
         if (!hasSPAN) {
             const span = document.createElement("SPAN")
             const templeteSendIcon = `
-            <i class="input-group-text bi bi-send"></i>
+            <i class="input-group-text bi bi-send" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></i>
             `
             span.setAttribute("class", "input-group-append")
             span.innerHTML = templeteSendIcon
@@ -157,6 +164,18 @@
                 }
             }
         })
+    }
+
+    const removeEditIcons = (form) => {
+        const cardBody = form.parentElement
+        const biPencilSquares =  Array.prototype.slice.call(cardBody.querySelectorAll('.bi-pencil-square'))
+
+        biPencilSquares.forEach(biPencilSquare => {
+            const inputGroupAppend = biPencilSquare.parentElement
+
+            inputGroupAppend.remove()
+        })
+
     }
 
     const setAttributeDisabledAndRemoveAutofocus = formControl => {
@@ -231,13 +250,6 @@
 
     const addEditIconInEditedFields = formControl => {
         const formGroup = formControl.parentElement.parentElement.parentElement
-        // const formControls = Array.prototype.slice.call(row.querySelectorAll('.form-control'))
-        // const editedFields = formControls.reduce((acc, formControl) => {
-        //     if (formControl.value != formControl.getAttribute('curValue')) return acc += 1
-        // }, 0)
-
-        // if (editedFields >= 2) return true
-        // return false
 
         const colSiblings = getAllSiblings(formGroup)
 
@@ -253,13 +265,47 @@
         })
     }
 
+    const changeMethodForm = (form, method) => {
+        form.setAttribute('method', method)
+    }
+
+    const createEventEditButton = formControl => {
+        const inputGroupAppend = formControl.nextElementSibling
+        const form = formControl.parentElement.parentElement.parentElement.parentElement.parentElement
+        const method = 'put'
+        inputGroupAppend.addEventListener('click', (e) => {
+            changeMethodForm(form, method)
+
+            const templateCollapse = `
+            <div class="card card-body">
+                <p>Tem certeza que deseja atualizar?</p>
+                <div class="btn-toolbar mb-3 d-flex justify-content-center">
+                    <div class="btn-group mr-2">
+                        <button type="submit" class='btn btn-secondary'>SIM</button>
+                    </div>
+                    <div class="btn-group mr-2">
+                        <button type="submit" class='btn btn-primary'>NAO</button>
+                    </div>
+                </div>
+            </div>
+        `
+            const divCollapse = document.createElement('div')
+            divCollapse.setAttribute('class', 'collapse show position-fixed')
+            divCollapse.setAttribute('id', 'collapseExemple')
+            divCollapse.setAttribute('style', 'z-index: 9999;')
+            divCollapse.innerHTML = templateCollapse
+            const col = inputGroupAppend.parentElement.parentElement
+
+            if (!col.querySelector('.collapse')) col.appendChild(divCollapse)
+
+            removeEditIcons(form)
+
+            formControl.removeEventListener('click', () => {})
+        })
+    }
+
     const createEventClickEditIcon = editIcon => {
         editIcon.addEventListener('click', (event) => {
-            // Remover icone de editar
-            // Remover o atributo disabled
-            // Adicionar o atributo autofocus
-            // Adicionar o atributo autofocus
-            // Remover Esse Evento
 
             const spanInputGroupAppend = editIcon.parentElement
             const disabledInput = spanInputGroupAppend.previousElementSibling
@@ -273,22 +319,19 @@
 
     const createEventFocusOutInput = formControl => {
         formControl.addEventListener('focusout', (event) => {
-            // Checar se o valor do input foi editado
-            // Se o input foi editado - Adicionar icone de enviar (caso ele nao exista)
-            // Se nao adicionar o icone de Editar e seus atributos
             const inputWasEdited = checkIfInputValueWasEdited(formControl)
 
             formControl.removeEventListener('focusout', () => { })
 
             if (inputWasEdited) {
                 const atLeast2FieldsWereEdited = checkIfAtLeast2FieldsHaveBeenEdited(formControl)
-
+                
                 if (atLeast2FieldsWereEdited) {
                     addSubmitButton(formControl)
-                    // Aqui pode dar bug
                     removeIcons(formControl)
                 } else {
                     addSendIcon(formControl)
+                    createEventEditButton(formControl)
                 }
             } else {
                 removeSendIcon(formControl)
@@ -313,61 +356,52 @@
         createEventFocusOutInput(disabledInput)
     });
 
+    const botaoStatus = document.querySelector('#create_status')
 
-    // const insertRemoveSubmitButton = (col) => {
-    //     const formControls = Array.prototype.slice.call(col.querySelectorAll(".form-control"))
+    botaoStatus.addEventListener('click', (e) => {
+        const template = `
+            <div class="row w-100">
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="codigo" required>
+                    </div>
+                        </div>
+        
+                <div class="col">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="nome" required>
+                    </div>
+                </div>
+        
+                <div class="col">
+                        <button type="submit" class="btn btn-success w-100">Enviar</button>
+                </div>
+            </div>
+        `
+        const form = document.createElement('form')
+        form.setAttribute("action", '') 
+        form.setAttribute("method", 'post') 
+        form.setAttribute("class", 'form-inline mb-3') 
+        form.innerHTML = template
+        const cardBody = botaoStatus.nextElementSibling.firstElementChild
+        if (cardBody.querySelector('.alert')) {
 
-    //     const insertSubmitButton = formControls.every((formControl) => {
-    //         return (formControl.value == formControl.curValue)
-    //     })
+        } else if (cardBody.querySelector('.vazio')) {
+            const vazio = cardBody.querySelector('.vazio')
+            cardBody.insertBefore(form, vazio)
+            vazio.remove()
+        } else {
+            const firstForm = cardBody.querySelector('form')
+            cardBody.insertBefore(form, firstForm)
+        }
 
-    //     console.log(insertSubmitButton)
+        botaoStatus.removeEventListener('click', ()=>{})
+        botaoStatus.remove()
+    })
 
-    //     if (insertSubmitButton) {
-    //         const div = document.createElement("div")
-    //         div.setAttribute("class", "col")
-    //         div.innerHTML = `
-    //          <button type="button" class="btn btn-success botao-enviar">
-    //             Enviar
-    //         </button>
-    //         `
-    //         document.querySelector("#Status").append(div)
-    //     }
-    // }
-
-    // let elements = document.getElementsByClassName("form-control")
-
-    // for (let item of elements) {
-    //     const icon = item.nextElementSibling.children[0]
-
-    //     icon.addEventListener("click", (e) => {
-    //         item.removeAttribute("disabled")
-    //         item.focus()
-    //         item.setAttribute("required", "")
-    //         icon.removeEventListener('click', () => {})
-    //         icon.parentElement.remove()
-    //         const parent = item.parentElement
-    //         const col = parent.parentElement.parentElement
-
-    //         item.addEventListener('focusout', (ev) => {
-    //             if (ev.currentTarget.value == item.getAttribute("value")) {
-    //                 if (!parent.querySelector("span")) {
-    //                     item.setAttribute("disabled", "")
-    //                     let span = document.createElement("SPAN")
-    //                     span.setAttribute("class", "input-group-append")
-    //                     span.appendChild(icon)
-    //                     item.parentElement.appendChild(span)
-
-    //                     insertRemoveSubmitButton(col)
-
-    //                     item.removeEventListener('click', () => { })
-    //                 } else {
-    //                     insertRemoveSubmitButton(col)
-    //                 }
-    //             }
-    //         })
-    //     })
-    // }
+    if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+    }
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 {% endblock %}
