@@ -23,213 +23,88 @@
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <h2>Status</h2>
-            <button type="button" class="btn btn-primary" id="create_status">Criar Status</button>
             <div class="card">
                 <div class="card-body">
+                    <h5 class="card-title  mb-3">
+                        Status
+                    </h5>
+
                     {% if messages %}
-                        {% for message in messages %}
-                            {% if message.level %}
-                                <div class="alert alert-{{ message.tags }} " role="alert">
-                                    {{ message }}
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            {% endif %}
-                        {% endfor %}
+                    {% for message in messages %}
+                    {% if message.level %}
+                    <div class="alert alert-{{ message.tags }} " role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
                     {% endif %}
 
                     {% if all_status %}
-                        {% for status in all_status %}
-                            <form action="" method="post" class="form-inline mb-3">
-                                <div class="row w-100">
-                                    <div class="form-group">
-                                        <div class="col">
+                    <form action="" method="post">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_model_class" value="status">
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover table-sm">
+                                <caption>
+                                    <button type="submit" class="btn btn-primary botao-criar">Criar</button>
+                                </caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Código</th>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for status in all_status %}
+                                    <tr>
+                                        <input type="hidden" class="hidden_id" name="_id" value="{{ status.id }}" disabled>
+                                        <td>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="codigo" curValue="{{ status.codigo }}" value="{{ status.codigo }}"
-                                                    disabled>
+                                                <input type="text" class="form-control" name="codigo"
+                                                    curvalue="{{ status.codigo }}" value="{{ status.codigo }}"
+                                                    disabled="">
                                                 <span class="input-group-append">
                                                     <i class="input-group-text bi bi-pencil-square"></i>
                                                 </span>
                                             </div>
-                                        </div>
-                                    </div>
-                            
-                                    <div class="form-group">
-                                        <div class="col">
+                                        </td>
+
+                                        <td>
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="nome" curValue="{{ status.nome }}"
-                                                    value="{{ status.nome }}" disabled>
+                                                <input type="text" class="form-control" name="nome"
+                                                    curvalue="{{ status.nome }}" value="{{ status.nome }}" disabled>
                                                 <span class="input-group-append">
                                                     <i class="input-group-text bi bi-pencil-square"></i>
                                                 </span>
                                             </div>
-                                        </div>
-                                    </div>
-                            
-                                    <div class="form-group">
-                                        <div class="col">
-                                                <button type="submit" class="btn btn-danger botao-apagar w-100">Apagar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        {% endfor %}
+                                        </td>
+
+                                        <td>
+                                            <button type="submit"
+                                                class="btn btn-danger botao-apagar w-100">Apagar</button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
                     {% else %}
-                        <p class="lead vazio text-center">
-                            Não há nenhum status.
-                        </p>
+                    <p class="lead vazio text-center">
+                        Não há nenhum status.
+                    </p>
                     {% endif %}
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 <script>
-    const removeEditIcon = spanInputGroupAppend => {
-        spanInputGroupAppend.remove()
-    }
-
-    const addEditIcon = (formControl) => {
-        const inputGroup = formControl.parentElement
-        const hasSPAN = inputGroup.querySelector('.input-group-append')
-
-        if (!hasSPAN) {
-            const span = document.createElement("SPAN")
-            const templeteSendIcon = `
-            <i class="input-group-text bi bi-pencil-square"></i>
-            `
-            span.setAttribute("class", "input-group-append")
-            span.innerHTML = templeteSendIcon
-
-            inputGroup.appendChild(span)
-
-            return true
-        }
-
-        return false
-    }
-
-    const addSendIcon = (formControl) => {
-        const inputGroup = formControl.parentElement
-        const hasSPAN = inputGroup.querySelector('.input-group-append')
-
-        if (!hasSPAN) {
-            const span = document.createElement("SPAN")
-            const templeteSendIcon = `
-            <i class="input-group-text bi bi-send" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"></i>
-            `
-            span.setAttribute("class", "input-group-append")
-            span.innerHTML = templeteSendIcon
-
-            inputGroup.appendChild(span)
-
-            return true
-        }
-
-        return false
-    }
-
-    const removeSendIcon = formControl => {
-        const inputGroup = formControl.parentElement
-        const span = inputGroup.querySelector('.input-group-append')
-        if (span) {
-            span.remove()
-            return true
-        }
-
-        return false
-    }
-
-    const checkIfInputValueWasEdited = formControl => {
-        if (formControl.value != formControl.getAttribute('curValue')) return true
-        return false
-    }
-
-    const removeIcons = formControl => {
-        const row = formControl.parentElement.parentElement.parentElement.parentElement
-        const rowChildren = Array.prototype.slice.call(row.children)
-
-        rowChildren.forEach(formGroup => {
-            const siblingFormControl = formGroup.querySelector('.form-control')
-
-            if (siblingFormControl) {
-                if (checkIfInputValueWasEdited(siblingFormControl)) {
-                    const span = formGroup.querySelector('.input-group-append')
-                    if (span) {
-                        span.remove()
-                    }
-                }
-            }
-        })
-    }
-
-    const removeEditIcons = (form) => {
-        const cardBody = form.parentElement
-        const biPencilSquares =  Array.prototype.slice.call(cardBody.querySelectorAll('.bi-pencil-square'))
-
-        biPencilSquares.forEach(biPencilSquare => {
-            const inputGroupAppend = biPencilSquare.parentElement
-
-            inputGroupAppend.remove()
-        })
-
-    }
-
-    const setAttributeDisabledAndRemoveAutofocus = formControl => {
-        if (formControl.hasAttribute('autofocus')) {
-            formControl.removeAttribute('autofocus')
-        }
-        formControl.setAttribute('disabled', '')
-    }
-
-    const checkIfAtLeast2FieldsHaveBeenEdited = formControl => {
-        const row = formControl.parentElement.parentElement.parentElement.parentElement
-        const formControls = Array.prototype.slice.call(row.querySelectorAll('.form-control'))
-        const editedFields = formControls.reduce((acc, nestedFormControl) => {
-            if (checkIfInputValueWasEdited(nestedFormControl)) return acc += 1
-            return acc
-        }, 0)
-
-        if (editedFields >= 2) return true
-        return false
-    }
-
-    const addSubmitButton = formControl => {
-        const row = formControl.parentElement.parentElement.parentElement.parentElement
-        const submitButton = row.querySelector('.botao-enviar')
-
-        if (!submitButton) {
-            const div = document.createElement("div")
-            div.setAttribute("class", "form-group")
-            div.innerHTML = `
-            <div class="col">
-                <div class="input-group">
-                    <button type="submit" class="btn btn-success botao-enviar">Enviar</button>
-                </div>
-            </div>
-            `
-            const rowChildren = Array.prototype.slice.call(row.children)
-            row.insertBefore(div, rowChildren.slice('-1')[0])
-        }
-    }
-
-    const removeSubmitButton = formControl => {
-        const row = formControl.parentElement.parentElement.parentElement.parentElement
-        const submitButton = row.querySelector('.botao-enviar')
-
-        if (submitButton) {
-            const formGroup = submitButton.parentElement.parentElement.parentElement
-            formGroup.remove()
-
-            return true
-        }
-
-        return false
-    }
-
     const getAllSiblings = (elem) => {
         const siblings = [];
 
@@ -248,159 +123,328 @@
         return siblings;
     };
 
+    // ALterar nome depois
+    const addEditIcon = formControl => {
+        const inputGroup = formControl.closest('.input-group')
+        const hasSPAN = inputGroup.querySelector('.input-group-append')
+
+        if (!hasSPAN) {
+            const inputGroupText = document.createElement("SPAN")
+            const templeteSendIcon = `
+            <i class="input-group-text bi bi-pencil-square"></i>
+            `
+            inputGroupText.setAttribute("class", "input-group-append")
+            inputGroupText.innerHTML = templeteSendIcon
+
+            inputGroup.appendChild(inputGroupText)
+
+            return true
+        }
+
+        return false
+    }
+
+    const addSendIcon = formControl => {
+        const inputGroup = formControl.closest('.input-group')
+        const hasSPAN = inputGroup.querySelector('.input-group-append')
+
+        if (!hasSPAN) {
+            const inputGroupAppend = document.createElement("SPAN")
+            const templeteSendIcon = `
+                <i class="input-group-text bi bi-send"></i>
+            `
+            inputGroupAppend.setAttribute("class", "input-group-append")
+            inputGroupAppend.innerHTML = templeteSendIcon
+
+            inputGroup.appendChild(inputGroupAppend)
+
+            return true
+        }
+
+        return false
+    }
+
+    const removeSendIcon = formControl => {
+        const inputGroup = formControl.closest('.input-group')
+        const inputGroupAppend = inputGroup.querySelector('.input-group-append')
+        if (inputGroupAppend) {
+            inputGroupAppend.remove()
+            return true
+        }
+
+        return false
+    }
+
+    const checkIfInputValueWasEdited = formControl => {
+        if (formControl.value != formControl.getAttribute('curValue')) return true
+        return false
+    }
+
+    const removeIconsFromThisRow = formControl => {
+        const tr = formControl.closest('tr')
+        const trChildren = Array.prototype.slice.call(tr.children)
+
+        trChildren.forEach(td => {
+            const siblingFormControl = td.querySelector('.form-control')
+
+            if (siblingFormControl) {
+                if (checkIfInputValueWasEdited(siblingFormControl)) {
+                    const inputGroupAppend = td.querySelector('.input-group-append')
+                    if (inputGroupAppend) {
+                        inputGroupAppend.remove()
+                    }
+                }
+            }
+        })
+    }
+
+    const removeIconsAndSetDisablesFromAllRows = formControl => {
+        const tr = formControl.closest('tr')
+        const tBody = tr.parentElement
+        const inputGroupAppends =  Array.prototype.slice.call(tBody.querySelectorAll('.input-group-append'))
+
+        inputGroupAppends.forEach(inputGroupAppend => {
+            const nestedTr = inputGroupAppend.closest('tr')
+            const nesteFormControl = inputGroupAppend.previousElementSibling
+            const wasEdited = checkIfInputValueWasEdited(nesteFormControl)
+            if (nestedTr.isEqualNode(tr) && wasEdited) {
+            } else {
+                inputGroupAppend.remove()
+
+                if (!nesteFormControl.hasAttribute('disabled')) {
+                    nesteFormControl.setAttribute('disabled', '')
+                }
+            }
+        })
+    }
+
+    const setAttributeDisabled = element => {
+        element.setAttribute('disabled', '')
+    }
+
+    const checkIfAtLeast2FieldsInTheRowHaveBeenEdited = formControl => {
+        const tr = formControl.closest('tr')
+        const formControls = Array.prototype.slice.call(tr.querySelectorAll('.form-control'))
+        const editedFields = formControls.reduce((acc, nestedFormControl) => {
+            if (checkIfInputValueWasEdited(nestedFormControl)) return acc += 1
+            return acc
+        }, 0)
+
+        if (editedFields >= 2) return true
+        return false
+    }
+
+    const removeDeleteButton = formControl => {
+        const tr = formControl.closest('tr')
+        const botaoApagar = tr.querySelector('.botao-apagar')
+        
+        if (botaoApagar) botaoApagar.parentElement.remove()
+    }
+    
+    const addDeleteButton = formControl => {
+        const tr = formControl.closest('tr')
+        const deleteButton = tr.querySelector('.botao-apagar')
+        
+        if (!deleteButton) {
+            const td = document.createElement("td")
+            td.innerHTML = `
+            <button type="submit" class="btn btn-danger botao-apagar w-100">Apagar</button>
+            `
+            const trChildren = Array.prototype.slice.call(tr.children)
+            tr.appendChild(td)
+        }
+    }
+    
+    const addUpdateButton = formControl => {
+        const tr = formControl.closest('tr')
+        const submitButton = tr.querySelector('.botao-atualizar')
+        
+        if (!submitButton) {
+            const td = document.createElement("td")
+            td.innerHTML = `
+            <button type="submit" class="btn btn-success botao-atualizar w-100">Atualizar</button>
+            `
+            const trChildren = Array.prototype.slice.call(tr.children)
+            tr.appendChild(td)
+        }
+    }
+    
+    const removeUpdateButton = formControl => {
+        const tr = formControl.closest('tr')
+        const updateButton = tr.querySelector('.botao-atualizar')
+        
+        if (updateButton) {
+            const td = updateButton.parentElement
+            td.remove()
+            return true
+        }
+        return false
+    }
+    
     const addEditIconInEditedFields = formControl => {
-        const formGroup = formControl.parentElement.parentElement.parentElement
+        const td = formControl.closest('td')
+        const tdSiblings = getAllSiblings(td)
 
-        const colSiblings = getAllSiblings(formGroup)
-
-        colSiblings.forEach(sibling => {
+        tdSiblings.forEach(sibling => {
             const siblingInput = sibling.querySelector('.form-control')
 
             if (siblingInput) {
                 const siblingInputWasEdited = checkIfInputValueWasEdited(siblingInput)
 
-                if (siblingInputWasEdited) addSendIcon(siblingInput)
+                if (siblingInputWasEdited) {
+                    addSendIcon(siblingInput)
+                    createEventEditButton(siblingInput)
+                }
             }
 
         })
     }
 
-    const changeMethodForm = (form, method) => {
-        form.setAttribute('method', method)
+    const addAllowAndDeniedButtons = formControl => {
+        const td = formControl.closest('td')
+        const templateCollapse = `
+                <p class="text-center">Tem certeza que deseja atualizar?</p>
+                <div class="btn-toolbar mb-3 d-flex justify-content-center">
+                    <div class="btn-group mr-2">
+                        <button type="submit" class='btn btn-secondary allow'>SIM</button>
+                    </div>
+                    <div class="btn-group mr-2">
+                        <button type="button" class='btn btn-primary denied'>NAO</button>
+                    </div>
+                </div>
+            `
+
+        const card = document.createElement('div')
+        card.setAttribute('class', 'card card-body')
+        card.innerHTML = templateCollapse
+
+        if (!td.querySelector('.card')) td.appendChild(card)
+    }
+
+    const addEditAndSendIconsIntoAllFormControls = formControl => {
+        const tBody = formControl.closest('tbody')
+        const formControls = Array.prototype.slice.call(tBody.querySelectorAll('.form-control'))
+
+        formControls.forEach(nestedFormControl => {
+             const inputWasEdited = checkIfInputValueWasEdited(nestedFormControl)
+
+                if (inputWasEdited) {
+                    addSendIcon(nestedFormControl)
+                    createEventEditButton(nestedFormControl)
+                    if (nestedFormControl.hasAttribute('disabled')) nestedFormControl.removeAttribute('disabled')
+                } else {
+                    addEditIcon(nestedFormControl)
+                    createEventClickEditIcon(nestedFormControl)
+                }
+        })
+    }
+
+    const setAttributeDisabledAllHiddenInputs = formControl => {
+        const tBody = formControl.closest('tbody')
+        const tBodyChildren = Array.prototype.slice.call(tBody.children)
+
+        tBodyChildren.forEach(tBodyChild => {
+            const hiddenId = tBodyChild.querySelector('.hidden_id')
+
+            if (!hiddenId.hasAttribute('disabled')) setAttributeDisabled(hiddenId)
+        })
+    }
+
+    const removeDisableOnThatHiddenInput = formControl => {
+        const tr = formControl.closest('tr')
+        const hiddenId = tr.querySelector('.hidden_id')
+
+        if (hiddenId)
+        hiddenId.removeAttribute('disabled')
+    }
+    
+    const createEventDeniedButtonFormControls = formControl => {
+        const tr = formControl.closest('tr')
+        const deniedButton = tr.querySelector('.denied')
+        deniedButton.addEventListener('click', ev => {
+            deniedButton.removeEventListener('click', () => { })
+
+            const nestedCard = deniedButton.parentElement.parentElement.parentElement
+
+            addEditAndSendIconsIntoAllFormControls(formControl)
+            nestedCard.remove()
+
+        })
     }
 
     const createEventEditButton = formControl => {
         const inputGroupAppend = formControl.nextElementSibling
-        const form = formControl.parentElement.parentElement.parentElement.parentElement.parentElement
-        const method = 'put'
         inputGroupAppend.addEventListener('click', (e) => {
-            changeMethodForm(form, method)
+            inputGroupAppend.removeEventListener('click', () => { })
 
-            const templateCollapse = `
-            <div class="card card-body">
-                <p>Tem certeza que deseja atualizar?</p>
-                <div class="btn-toolbar mb-3 d-flex justify-content-center">
-                    <div class="btn-group mr-2">
-                        <button type="submit" class='btn btn-secondary'>SIM</button>
-                    </div>
-                    <div class="btn-group mr-2">
-                        <button type="submit" class='btn btn-primary'>NAO</button>
-                    </div>
-                </div>
-            </div>
-        `
-            const divCollapse = document.createElement('div')
-            divCollapse.setAttribute('class', 'collapse show position-fixed')
-            divCollapse.setAttribute('id', 'collapseExemple')
-            divCollapse.setAttribute('style', 'z-index: 9999;')
-            divCollapse.innerHTML = templateCollapse
-            const col = inputGroupAppend.parentElement.parentElement
-
-            if (!col.querySelector('.collapse')) col.appendChild(divCollapse)
-
-            removeEditIcons(form)
-
-            formControl.removeEventListener('click', () => {})
+            removeIconsAndSetDisablesFromAllRows(formControl)
+            addAllowAndDeniedButtons(formControl)
+            createEventDeniedButtonFormControls(formControl)
         })
     }
 
-    const createEventClickEditIcon = editIcon => {
-        editIcon.addEventListener('click', (event) => {
-
-            const spanInputGroupAppend = editIcon.parentElement
-            const disabledInput = spanInputGroupAppend.previousElementSibling
-            removeEditIcon(spanInputGroupAppend)
-
-            editIcon.removeEventListener('click', () => { })
-            disabledInput.removeAttribute('disabled')
-            disabledInput.setAttribute('autofocus', '')
+    const createEventClickEditIcon = formControl => {
+        const inputGroupAppend = formControl.nextElementSibling
+        const inputGroupText = inputGroupAppend.firstElementChild
+        inputGroupText.addEventListener('click', (event) => {
+            inputGroupText.removeEventListener('click', () => { })
+            inputGroupAppend.remove()
+            formControl.removeAttribute('disabled')
+            formControl.focus()
         })
     }
 
     const createEventFocusOutInput = formControl => {
         formControl.addEventListener('focusout', (event) => {
-            const inputWasEdited = checkIfInputValueWasEdited(formControl)
-
+            const target = event.target
             formControl.removeEventListener('focusout', () => { })
+            const inputWasEdited = checkIfInputValueWasEdited(target)
+
 
             if (inputWasEdited) {
-                const atLeast2FieldsWereEdited = checkIfAtLeast2FieldsHaveBeenEdited(formControl)
-                
-                if (atLeast2FieldsWereEdited) {
-                    addSubmitButton(formControl)
-                    removeIcons(formControl)
-                } else {
-                    addSendIcon(formControl)
-                    createEventEditButton(formControl)
-                }
-            } else {
-                removeSendIcon(formControl)
-                if (removeSubmitButton(formControl)) {
-                    addEditIconInEditedFields(formControl)
-                }
-                addEditIcon(formControl)
-                setAttributeDisabledAndRemoveAutofocus(formControl)
+                const atLeast2FieldsWereEdited = checkIfAtLeast2FieldsInTheRowHaveBeenEdited(target)
 
-                const editIcon = formControl.nextElementSibling.firstElementChild
-                createEventClickEditIcon(editIcon)
+                if (atLeast2FieldsWereEdited) {
+                    removeDeleteButton(target)
+                    addUpdateButton(target)
+                    removeIconsFromThisRow(target)
+                } else {
+                    addSendIcon(target)
+                    createEventEditButton(target)
+                }
+                removeDisableOnThatHiddenInput(target)
+            } else {
+                removeSendIcon(target)
+                if (removeUpdateButton(target)) {
+                    addDeleteButton(target)
+                    addEditIconInEditedFields(target)
+                }
+                addEditIcon(target)
+                setAttributeDisabled(target)
+                setAttributeDisabledAllHiddenInputs(target)
+
+                createEventClickEditIcon(target)
             }
 
         })
     }
 
-    const disabledInputs = Array.prototype.slice.call(document.querySelectorAll('input[disabled]'))
+    const formControls = Array.prototype.slice.call(document.querySelectorAll('input.form-control'))
 
-    disabledInputs.forEach(disabledInput => {
-        const editIcon = disabledInput.nextElementSibling.firstElementChild
-        createEventClickEditIcon(editIcon)
-        createEventFocusOutInput(disabledInput)
+    formControls.forEach(formControl => {
+        createEventClickEditIcon(formControl)
+        createEventFocusOutInput(formControl)
     });
 
-    const botaoStatus = document.querySelector('#create_status')
-
-    botaoStatus.addEventListener('click', (e) => {
-        const template = `
-            <div class="row w-100">
-                <div class="col">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="codigo" required>
-                    </div>
-                        </div>
-        
-                <div class="col">
-                    <div class="input-group">
-                        <input type="text" class="form-control" name="nome" required>
-                    </div>
-                </div>
-        
-                <div class="col">
-                        <button type="submit" class="btn btn-success w-100">Enviar</button>
-                </div>
-            </div>
-        `
-        const form = document.createElement('form')
-        form.setAttribute("action", '') 
-        form.setAttribute("method", 'post') 
-        form.setAttribute("class", 'form-inline mb-3') 
-        form.innerHTML = template
-        const cardBody = botaoStatus.nextElementSibling.firstElementChild
-        if (cardBody.querySelector('.alert')) {
-
-        } else if (cardBody.querySelector('.vazio')) {
-            const vazio = cardBody.querySelector('.vazio')
-            cardBody.insertBefore(form, vazio)
-            vazio.remove()
-        } else {
-            const firstForm = cardBody.querySelector('form')
-            cardBody.insertBefore(form, firstForm)
-        }
-
-        botaoStatus.removeEventListener('click', ()=>{})
-        botaoStatus.remove()
-    })
+    const addEventCreateButton = createButton => {
+        createButton.addEventListener('click', () => {
+            createButton.removeEventListener('click', () => { })
+            // removeIconsFromThisRow(tr)
+        })
+    }
 
     if (window.history.replaceState) {
-            window.history.replaceState(null, null, window.location.href);
+        window.history.replaceState(null, null, window.location.href);
     }
 </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">

@@ -14,9 +14,11 @@ def dashboard(request):
         codigo = request.POST.get('codigo', False)
         nome = request.POST.get('nome', False)
         method = request.POST.get('_method', False)
+        model_class = request.POST.get('_model_class', False)
+        status_id = request.POST.get('_id', False)
 
         if method == 'PUT':
-            pass
+            atualiza_status(codigo, nome, status_id, request)
         elif method == 'DELETE':
             pass
         else:
@@ -41,7 +43,7 @@ def criar_status(codigo, nome, user, request):
     except:
         messages.add_message(request, messages.WARNING, f'Não foi possível adicionar o status')
 
-def atualiza_status(codigo, nome, status_id):
+def atualiza_status(codigo, nome, status_id, request):
     try:
         status = Status.objects.filter(id=status_id).first()
 
@@ -52,9 +54,9 @@ def atualiza_status(codigo, nome, status_id):
             status.codigo = codigo
         
         status.save()
-        return True
+        messages.add_message(request, messages.SUCCESS, f'Status {status.nome} atualizado com sucesso')
     except:
-        return False
+        messages.add_message(request, messages.SUCCESS, f'Não foi possível alterar o status')
 
 
 
