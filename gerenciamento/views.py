@@ -20,7 +20,7 @@ def dashboard(request):
         if method == 'PUT':
             atualiza_status(codigo, nome, status_id, request)
         elif method == 'DELETE':
-            pass
+            delete_status(status_id, request)
         else:
             criar_status(codigo, nome, user, request)
 
@@ -52,12 +52,24 @@ def atualiza_status(codigo, nome, status_id, request):
         
         if codigo:
             status.codigo = codigo
-        
-        status.save()
-        messages.add_message(request, messages.SUCCESS, f'Status {status.nome} atualizado com sucesso')
-    except:
-        messages.add_message(request, messages.SUCCESS, f'Não foi possível alterar o status')
 
+        if codigo and not codigo_exists(codigo):
+            status.save()
+            messages.add_message(request, messages.SUCCESS, f'Status {status.nome} atualizado com sucesso')
+        else:
+            messages.add_message(request, messages.WARNING, f'Codigo já existente')
+
+    except:
+        messages.add_message(request, messages.WARNING, f'Não foi possível alterar o status')
+
+def delete_status(status_id, request):
+    try:
+        status = Status.objects.filter(id=status_id)
+
+        status.delete()
+        messages.add_message(request, messages.SUCCESS, f'Status deletado com sucesso')
+    except:
+        messages.add_message(request, messages.SUCCESS, f'Não foi possível deletar o status')
 
 
 def codigo_exists(codigo):
