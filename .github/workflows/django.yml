@@ -28,3 +28,9 @@ jobs:
     - name: Run Tests
       run: |
         python manage.py test
+    - name: Run migrations 
+      run: |
+        python manage.py makemigrations login
+        python manage.py makemigrations gerenciamento
+        python manage.py migrate
+
