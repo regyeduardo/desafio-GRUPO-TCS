@@ -3,6 +3,5 @@ __pycache__/
 .venv/
 *.sqlite3
 teste.py
-migrations/
 .env
 .vscode/
