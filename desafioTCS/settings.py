@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import django_on_heroku
 import os
+from login.models import User
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -136,7 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/login'
 LOGOUT_REDIRECT_URL = '/logout' # new
 
-AUTH_USER_MODEL = 'login.User'
+AUTH_USER_MODEL = User
 # CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 # CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 # CELERY_ACCEPT_CONTENT = ['application/json']
