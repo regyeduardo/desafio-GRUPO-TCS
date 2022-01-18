@@ -1,0 +1,1 @@
+web: gunicorn desafioTCS.wsgi --log-file -
