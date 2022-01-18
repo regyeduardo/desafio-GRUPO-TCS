@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.contrib.auth.models import User
 
+
 @csrf_exempt
 @login_required(login_url='/login')
 def dashboard(request):
@@ -15,19 +16,59 @@ def dashboard(request):
         nome = request.POST.get('nome', False)
         method = request.POST.get('_method', False)
         model_class = request.POST.get('_model_class', False)
-        status_id = request.POST.get('_id', False)
+        class_id = request.POST.get('_id', False)
 
-        if method == 'PUT':
-            atualiza_status(codigo, nome, status_id, request)
-        elif method == 'DELETE':
-            delete_status(status_id, request)
-        else:
-            criar_status(codigo, nome, user, request)
+        if model_class == 'status':
+            if method == 'PUT':
+                atualiza_status(codigo, nome, class_id, request)
+            elif method == 'DELETE':
+                delete_status(class_id, request)
+            else:
+                criar_status(codigo, nome, user, request)
+        elif model_class == 'maquina':
+            if method == 'PUT':
+                atualiza_maquina(nome, class_id, request)
+            elif method == 'DELETE':
+                delete_maquina(class_id, request)
+            else:
+                criar_maquina(nome, user, request)
 
     user_id = request.user.id
     all_status = Status.objects.filter(user_id=user_id).all()
+    maquinas = Maquina.objects.filter(user_id=user_id).all()
+    eventos = Evento.objects.filter(user_id=user_id).all().order_by('-data')[:10]
 
-    return render(request, 'gerenciamento/dashboard.html', {'all_status': all_status})
+    return render(request, 'gerenciamento/dashboard.html', {'all_status': all_status, 'maquinas': maquinas, 'eventos': eventos})
+
+
+
+    
+
+def criar_maquina(nome, user, request):
+    try:
+        Maquina.objects.create(nome=nome, user_id=user)
+        messages.add_message(request, messages.SUCCESS, f'Máquina criada com sucesso')
+    except:
+        messages.add_message(request, messages.WARNING, f'Não foi possível adicionar a Máquina')
+
+def delete_maquina(class_id, request):
+    try:
+        maquina = Maquina.objects.filter(id=class_id).first()
+        maquina.delete()
+        messages.add_message(request, messages.SUCCESS, f'Máquina deletada com sucesso')
+    except:
+        messages.add_message(request, messages.SUCCESS, f'Não foi possível deletar a Máquina')
+    
+def atualiza_maquina(nome, class_id, request):
+    try:
+        maquina = Maquina.objects.filter(id=class_id).first()
+        maquina.nome = nome
+        maquina.save()
+        messages.add_message(request, messages.SUCCESS, f'Máquina atualizada com sucesso')
+    except:
+        messages.add_message(request, messages.SUCCESS, f'Não foi possível atualizar a Máquina')
+
+
 
 def criar_status(codigo, nome, user, request):
     try:
@@ -49,16 +90,15 @@ def atualiza_status(codigo, nome, status_id, request):
 
         if nome:
             status.nome = nome
-        
-        if codigo:
-            status.codigo = codigo
-
-        if codigo and not codigo_exists(codigo):
+            messages.add_message(request, messages.SUCCESS, f'Nome do status atualizado com sucesso')
             status.save()
-            messages.add_message(request, messages.SUCCESS, f'Status {status.nome} atualizado com sucesso')
-        else:
-            messages.add_message(request, messages.WARNING, f'Codigo já existente')
-
+        
+        if codigo and codigo_exists(codigo):
+            messages.add_message(request, messages.WARNING, f'Código já existente')
+        elif codigo:
+            status.codigo = codigo
+            status.save()
+            messages.add_message(request, messages.SUCCESS, f'Código atualizado com sucesso')
     except:
         messages.add_message(request, messages.WARNING, f'Não foi possível alterar o status')
 
