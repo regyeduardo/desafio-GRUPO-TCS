@@ -124,7 +124,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = "/var/www/example.com/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
