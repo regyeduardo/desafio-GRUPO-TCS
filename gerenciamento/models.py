@@ -1,6 +1,7 @@
 from django.db import models
 # from django.db.models.fields import Datetime
-from login.models import User
+# from login.models import Account
+from django.contrib.auth.models import User
 
 class Status(models.Model):
     codigo = models.CharField(max_length=10)

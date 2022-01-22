@@ -4,8 +4,8 @@ from django.contrib.auth import logout
 from .models import Status, Maquina, Evento
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-# from django.contrib.auth.models import User
-from login.models import User
+from django.contrib.auth.models import User
+# from login.models import Account
 
 
 @csrf_exempt

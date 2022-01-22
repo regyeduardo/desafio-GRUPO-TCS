@@ -4,8 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.urls import reverse
 from django.contrib import messages
-# from django.contrib.auth.models import User
-from .models import User
+from django.contrib.auth.models import User
+# from .models import Account
 
 @csrf_exempt
 def auth_login(request):
