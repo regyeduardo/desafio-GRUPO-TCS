@@ -1,7 +1,7 @@
 from django.db import models
 # from django.db.models.fields import Datetime
-# from login.models import Account
-from django.contrib.auth.models import User
+from login.models import User
+# from django.contrib.auth.models import User
 
 class Status(models.Model):
     codigo = models.CharField(max_length=10)
@@ -27,4 +27,3 @@ class Evento(models.Model):
 
     def __str__(self):
         return f"{self.id} + {self.data} + {self.status_id} + {self.maquina_id}"
-

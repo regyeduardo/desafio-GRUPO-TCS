@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'login.apps.LoginConfig',
     # 'login',
     'gerenciamento',
-    # 'django_celery_beat',
+    'django_celery_beat',
 ]
 
 MIDDLEWARE = [
@@ -113,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
@@ -137,11 +137,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/login'
 LOGOUT_REDIRECT_URL = '/logout' # new
 
-# AUTH_USER_MODEL = 'login.Account'
+AUTH_USER_MODEL = 'login.User'
 # AUTH_PROFILE_MODULE = 'login.User'
-# CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-# CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
-# CELERY_ACCEPT_CONTENT = ['application/json']
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TASK_SERIALIZER = 'json'
+CELERY_BROKER_URL = config('REDIS')
+CELERY_RESULT_BACKEND = config('REDIS')
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = "America/Sao_Paulo"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_ALWAYS_EAGER  = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
 django_on_heroku.settings(locals())

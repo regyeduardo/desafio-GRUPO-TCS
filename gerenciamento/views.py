@@ -4,9 +4,10 @@ from django.contrib.auth import logout
 from .models import Status, Maquina, Evento
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
-from django.contrib.auth.models import User
-# from login.models import Account
-
+# from django.contrib.auth.models import User
+from django_celery_beat.models import PeriodicTask, IntervalSchedule
+from login.models import User
+import json
 
 @csrf_exempt
 @login_required(login_url='/login')
@@ -18,6 +19,10 @@ def dashboard(request):
         method = request.POST.get('_method', False)
         model_class = request.POST.get('_model_class', False)
         class_id = request.POST.get('_id', False)
+        period = request.POST.get('period', False)
+
+        if period:
+            set_event_period(request, period)
 
         if model_class == 'status':
             if method == 'PUT':
@@ -42,9 +47,6 @@ def dashboard(request):
     return render(request, 'gerenciamento/dashboard.html', {'all_status': all_status, 'maquinas': maquinas, 'eventos': eventos})
 
 
-
-    
-
 def criar_maquina(nome, user, request):
     try:
         Maquina.objects.create(nome=nome, user_id=user)
@@ -68,8 +70,6 @@ def atualiza_maquina(nome, class_id, request):
         messages.add_message(request, messages.SUCCESS, f'Máquina atualizada com sucesso')
     except:
         messages.add_message(request, messages.SUCCESS, f'Não foi possível atualizar a Máquina')
-
-
 
 def criar_status(codigo, nome, user, request):
     try:
@@ -112,12 +112,28 @@ def delete_status(status_id, request):
     except:
         messages.add_message(request, messages.SUCCESS, f'Não foi possível deletar o status')
 
-
 def codigo_exists(codigo):
     return Status.objects.filter(codigo=codigo).exists()
 
-# def print_message(request):
-#     messages.add_message(request, messages.INFO, 'Este código já existe')
+def set_event_period(request, period):
+    user = User.objects.filter(id=request.user.id).first()
+    schedule, created = IntervalSchedule.objects.get_or_create(
+    every=period,
+    period=IntervalSchedule.MINUTES)
 
-#     from django.http import HttpResponse
-#     return HttpResponse('Sera que pode dar certo?')
+    try:
+        PeriodicTask.objects.filter(id=user.periodic_task_id.id).first().delete()
+    except:
+        pass
+    finally:
+        pd = PeriodicTask.objects.create(interval=schedule,
+            name=f'{request.user.username} change machine status',
+            task='gerenciamento.tasks.mudando_status_maquinas',
+            # args=json.dumps(['one', 'two']),
+            args=json.dumps([user.id],)
+            # kwargs=json.dumps()
+        )
+
+        pd.save()
+        user.periodic_task_id = pd
+        user.save()

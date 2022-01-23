@@ -3,16 +3,31 @@
 {% load static %}
 {% block style %}
 <style>
-
+    * {
+        list-style-type: none
+    }
 </style>
 {% endblock %}
 
 {% block body %}
-<h1>Usuario logado</h1>
 
-<a href="{% url 'login:logout' %}">LOGOUT</a>
+<nav class="navbar navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="https://github.com/regyeduardo" target="_blank">Regy</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+            aria-expanded="false">
+            {{ user }}
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="{% url 'login:logout' %}">Sair</a>
+            </div>
+        </li>
+    </div>
+</nav>
 
 <div class="container">
+
     {% if messages %}
         {% for message in messages %}
             {% if message.level %}
@@ -25,6 +40,23 @@
             {% endif %}
         {% endfor %}
     {% endif %}
+    <div class="row">
+        <div class="col-sm">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Frequência de Eventos</h5>
+                    <form class="form-row" action="" method="post">
+                        <div class="col">
+                            <!-- <div class="form-group"> -->
+                                <input type="number" name="period" min=0 max=55 value="0" required>
+                            <!-- </div> -->
+                            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Definir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row mb-4">
         <div class="col-sm">
             <div class="card">
