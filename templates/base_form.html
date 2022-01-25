@@ -2,23 +2,25 @@
 
 {% load static %}
 {% block title %} Login {% endblock %}
-{% block css %} {% static 'css/style.css' %} {% endblock %}
+{% block css %} {% static 'css/style.css' %}?{% now "U" %} {% endblock %}
 
 {% block body %}
 
-<div class="main">
+<div class="">
     <div class="form-login">
-        <form action="{% block form-action %} {% endblock %}" method="post" class="container w-75">
+        <form action="{% block form-action %} {% endblock %}" method="post" class="">
             <div class="form-group">
                 <label for="username">Nome de Usuário</label>
-                <input type="text" class="form-control" id="username" name="username" placeholder="Digite o nome de Usuário" required>
+                <input type="text" class="form-control" id="username" name="username"
+                    placeholder="Digite o nome de Usuário" required>
             </div>
             <div class="form-group">
                 <label for="password">Senha</label>
-                <input type="password" class="form-control" id="password" name="password" placeholder="Digite a senha" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Digite a senha"
+                    required>
             </div>
             {% block botao-cadastro-login %}
-            {% endblock  %}
+            {% endblock %}
         </form>
         {% block form-login %}
         {% endblock %}
